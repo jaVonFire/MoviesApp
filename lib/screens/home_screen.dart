@@ -16,14 +16,18 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pushNamed(context, 'settings'), 
+          icon: const Icon(Icons.settings)
+        ),   
         title: const Center(
-          child: Text('Movies on Cinema'),
+          child: Text('Movies on Cinema')
         ),
         actions: [
-          IconButton(
-            onPressed: () => showSearch(context: context, delegate: MovieSearchDelegate()) , 
-            icon: const Icon(Icons.search_outlined)
-          )
+            IconButton(
+              onPressed: () => showSearch(context: context, delegate: MovieSearchDelegate()), 
+              icon: const Icon(Icons.search_outlined)
+          ),
         ],
       ),
       body: SingleChildScrollView(

@@ -39,6 +39,7 @@ class _MovieSliderState extends State<MovieSlider> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
