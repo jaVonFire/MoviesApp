@@ -20,8 +20,13 @@ class HomeScreen extends StatelessWidget {
           onPressed: () => Navigator.pushNamed(context, 'settings'), 
           icon: const Icon(Icons.settings)
         ),   
-        title: const Center(
-          child: Text('Movies on Cinema')
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.movie),
+            Text('  Movies App  ', style: TextStyle( fontSize: 30, fontWeight: FontWeight.bold )),
+            Icon(Icons.movie)
+          ],
         ),
         actions: [
             IconButton(
@@ -32,15 +37,19 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            
+        
             // Principal Cards
             CardSwiper( movies: moviesProvider.onDisplayMovies ),
 
+            const SizedBox( height: 10 ),       
+            const Divider(),
+        
             // Movies Slider
             MovieSlider( 
               movies: moviesProvider.onPopularMovies, 
-              title: 'Populars',
+              title: 'Todas las películas',
               onNextPage: () => moviesProvider.getOnPopularMovies(), 
             )
         

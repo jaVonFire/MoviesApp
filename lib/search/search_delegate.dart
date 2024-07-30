@@ -7,7 +7,7 @@ import 'package:movies_app/providers/movies_provider.dart';
 class MovieSearchDelegate extends SearchDelegate {
 
   @override
-  String get searchFieldLabel => 'Search Movie...';
+  String get searchFieldLabel => 'Buscar Película...';
 
   @override
   List<Widget>? buildActions(BuildContext context) {
