@@ -19,8 +19,8 @@ samples, guidance on mobile development, and a full API reference.
 
 This project has a important dependecies:
 
-  card_swiper: ^3.0.0
-  cupertino_icons: ^1.0.2
-  http: ^1.2.0
-  provider: ^6.1.1
-  youtube_player_flutter: ^9.0.1
+  -  card_swiper: ^3.0.0
+  - cupertino_icons: ^1.0.2
+  - http: ^1.2.0
+  - provider: ^6.1.1
+  - youtube_player_flutter: ^9.0.1
