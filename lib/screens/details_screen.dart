@@ -20,11 +20,11 @@ class DetailsScreen extends StatelessWidget {
             delegate: SliverChildListDelegate([ 
                 _PosterAndTitle( movie: movie ), // Normal widget, No-Sliver Widget
                 _Overview( movie: movie ),
-                _Overview( movie: movie ),
-                _Overview( movie: movie ),
-                _Overview( movie: movie ),
-                _Overview( movie: movie ),
+                
+                VideoPlayer( movieId: movie.id ),
+
                 const SizedBox( height: 20 ),
+                
                 CastingCards( movieId: movie.id )
               ]
             ),

@@ -11,11 +11,12 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
   final String _apiKey = 'd1ac5c8bea4874cb1ddb7941b40aba63';
   final String _baseUrl = 'api.themoviedb.org';
-  final String _language = 'es-ES';
+  final String _language = 'es-LA';
 
   List<Movie> onDisplayMovies = [];
   List<Movie> onPopularMovies = [];
 
+  Map<String, dynamic> onKeyVideoMovies = {};
   Map<int, List<Cast>> onMovieCast = {};
   
   int _popularPage = 0;
@@ -70,6 +71,19 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
     onPopularMovies = [...onPopularMovies, ...popularResponse.results]; // Compatible
    
     notifyListeners(); // ChangeNotifier function
+
+  }
+
+  Future<List<Result>> getKeyVideoMovies( int movieId ) async {
+
+    if ( onKeyVideoMovies.containsKey(movieId) ) return onKeyVideoMovies[movieId]!;
+
+    final jsonData = await _getJsonData( '3/movie/$movieId/videos' );
+    final videoResponse = VideoResponse.fromJson(json.decode(jsonData));
+
+    onKeyVideoMovies['$movieId'] = videoResponse.results;
+
+    return videoResponse.results;
 
   }
 
