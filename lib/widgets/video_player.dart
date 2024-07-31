@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -30,6 +29,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
     
   }
 
+    @override
+    void dispose() {
+      _youtubePlayerController?.dispose();
+      super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -41,16 +46,32 @@ class _VideoPlayerState extends State<VideoPlayer> {
             return Container(
               constraints: const BoxConstraints( maxWidth: 150 ),
               height: 180,
-              child: const CupertinoActivityIndicator(),
+              child: Container(),
             );
           } 
 
         final List<Result> video = snapshot.data!;
-        // if ( video.isEmpty ) { return const Text('NO DATA'); }
-        print(video);
+
+        if ( video.isEmpty ) { 
+          return _NoData(); 
+        }
+
+        String videoKey() {
+          for (var element in video) {
+            if ( element.type == "Trailer" ) {
+              final name = element.name.toLowerCase();
+              if ( name.contains('trailer') || name.contains('tráiler') ) {
+                return element.key;
+              }
+            } else if ( element.type == "Teaser" ) {
+              return element.key;
+            }
+          }
+            return '';
+        }
 
         _youtubePlayerController = YoutubePlayerController(
-          initialVideoId: video[0].key,
+          initialVideoId: videoKey(),
           flags: const YoutubePlayerFlags(
             autoPlay: false,
             mute: false,
@@ -59,19 +80,41 @@ class _VideoPlayerState extends State<VideoPlayer> {
           )
         );
 
-        return YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            controller: _youtubePlayerController!,
-            showVideoProgressIndicator: true,
-          ), 
-          builder: ( context , player ) {
-            return Container(
-              child: player,
-            );
-          }
+        return Container(
+          padding: const EdgeInsets.only( top: 20, left: 20, right: 20 ),
+          child: YoutubePlayerBuilder(
+            player: YoutubePlayer(
+              controller: _youtubePlayerController!,
+              showVideoProgressIndicator: true,
+              // TODO: Fullscreen correctamente
+            ), 
+            builder: ( context , player ) {
+              return Container(
+                child: player,
+              );
+            }
+          ),
         );
         
       }
+    );
+
+  }
+}
+
+class _NoData extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: const Center(
+        child: FadeInImage(
+          placeholder: AssetImage('assets/loading.gif'), 
+          image: AssetImage( 'assets/video-not-working.png' ),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

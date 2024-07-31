@@ -108,10 +108,10 @@ class _PosterAndTitle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text( movie.title , style: textTheme.headlineMedium, overflow: TextOverflow.ellipsis, maxLines: 2),
-                Text( movie.originalTitle , style: textTheme.headlineSmall, overflow: TextOverflow.ellipsis, maxLines: 2,),
+                Text( movie.originalTitle , style: const TextStyle( fontSize: 15, fontStyle: FontStyle.italic ), overflow: TextOverflow.ellipsis, maxLines: 2 ),
                 Row(
                   children: [
-                    const Icon(Icons.star_border_outlined, size: 15, color: Colors.grey),
+                    const Icon(Icons.star_border_outlined, size: 20, color: Colors.grey),
                     const SizedBox( width: 5 ),
                     Text( '${movie.voteAverage}' , style: textTheme.bodySmall)
                   ]

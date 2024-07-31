@@ -11,7 +11,7 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
   final String _apiKey = 'd1ac5c8bea4874cb1ddb7941b40aba63';
   final String _baseUrl = 'api.themoviedb.org';
-  final String _language = 'es-LA';
+  final String _language = 'es-MX'; // Mexican Voices
 
   List<Movie> onDisplayMovies = [];
   List<Movie> onPopularMovies = [];
