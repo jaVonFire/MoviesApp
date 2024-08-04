@@ -1,8 +1,8 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:movies_app/helpers/debouncer.dart';
 import 'package:movies_app/models/models.dart';
 import 'package:movies_app/models/search_response.dart';
@@ -15,11 +15,13 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
   List<Movie> onDisplayMovies = [];
   List<Movie> onPopularMovies = [];
+  Map<int, List<MovieGenre>> genreMovies = {};
 
   Map<String, dynamic> onKeyVideoMovies = {};
   Map<int, List<Cast>> onMovieCast = {};
   
   int _popularPage = 0;
+  Map<int, int> genrePages = {};
           
   final debouncer = Debouncer(
     duration: const Duration(milliseconds: 500)
@@ -34,15 +36,17 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
     getOnDisplayMovies();
     getOnPopularMovies();
+    initializeGenres();
 
   }
 
-  Future<String> _getJsonData( String segment, [int page = 1] ) async {
+  Future<String> _getJsonData( String segment, [int page = 1, String? optionalParams] ) async {
 
     final url = Uri.https( _baseUrl, segment, {
       'api_key' : _apiKey,
       'language' : _language,
-      'page' : '$page'
+      'page' : '$page', 
+      if (optionalParams != null) 'with_genres': optionalParams
   });
 
     // Await the http get response, then decode the json-formatted response.
@@ -74,7 +78,19 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
   }
 
-  Future<List<Result>> getKeyVideoMovies( int movieId ) async {
+  getOnGenreMovies( int genreId ) async {
+
+    genrePages[genreId] = (genrePages[genreId] ?? 0) + 1;
+
+    final jsonData = await _getJsonData( '3/discover/movie', genrePages[genreId]!, '$genreId'  );
+    final genreMovieResponse = GenreResponse.fromJson(json.decode(jsonData));
+    genreMovies[genreId] = [...(genreMovies[genreId] ?? []), ...genreMovieResponse.results]; // Compatible
+
+    notifyListeners();
+
+  }
+
+  Future<List<Video>> getKeyVideoMovies( int movieId ) async {
 
     if ( onKeyVideoMovies.containsKey(movieId) ) return onKeyVideoMovies[movieId]!;
 
@@ -130,6 +146,19 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
   Future.delayed(const Duration(milliseconds: 301)).then(( _ ) => timer.cancel());
 
+  }
+
+  void initializeGenres() {
+    getOnGenreMovies(16); 
+    getOnGenreMovies(27); 
+    getOnGenreMovies(10751);
+    getOnGenreMovies(28);
+    getOnGenreMovies(35);
+    getOnGenreMovies(878);
+    getOnGenreMovies(10749);
+    getOnGenreMovies(53);
+    getOnGenreMovies(18);
+    getOnGenreMovies(99);
   }
 
 }

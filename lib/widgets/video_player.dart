@@ -19,7 +19,7 @@ class VideoPlayer extends StatefulWidget {
 class _VideoPlayerState extends State<VideoPlayer> {
 
   YoutubePlayerController? _youtubePlayerController;
-  late Future<List<Result>> _videoFuture;
+  late Future<List<Video>> _videoFuture;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     return FutureBuilder(
       future: _videoFuture, 
-      builder: ( _ , AsyncSnapshot<List<Result>> snapshot ) {
+      builder: ( _ , AsyncSnapshot<List<Video>> snapshot ) {
 
         if ( !snapshot.hasData ) {
             return Container(
@@ -50,7 +50,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
             );
           } 
 
-        final List<Result> video = snapshot.data!;
+        final List<Video> video = snapshot.data!;
 
         if ( video.isEmpty ) { 
           return _NoData(); 

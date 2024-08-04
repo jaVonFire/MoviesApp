@@ -7,7 +7,7 @@ String videoResponseToJson(VideoResponse data) => json.encode(data.toJson());
 
 class VideoResponse {
     int id;
-    List<Result> results;
+    List<Video> results;
 
     VideoResponse({
         required this.id,
@@ -16,7 +16,7 @@ class VideoResponse {
 
     factory VideoResponse.fromJson(Map<String, dynamic> json) => VideoResponse(
         id: json["id"],
-        results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+        results: List<Video>.from(json["results"].map((x) => Video.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -25,7 +25,7 @@ class VideoResponse {
     };
 }
 
-class Result {
+class Video {
     String iso6391;
     String iso31661;
     String name;
@@ -37,7 +37,7 @@ class Result {
     DateTime publishedAt;
     String id;
 
-    Result({
+    Video({
         required this.iso6391,
         required this.iso31661,
         required this.name,
@@ -50,7 +50,7 @@ class Result {
         required this.id,
     });
 
-    factory Result.fromJson(Map<String, dynamic> json) => Result(
+    factory Video.fromJson(Map<String, dynamic> json) => Video(
         iso6391: json["iso_639_1"],
         iso31661: json["iso_3166_1"],
         name: json["name"],
