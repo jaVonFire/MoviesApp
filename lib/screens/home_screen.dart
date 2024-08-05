@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/providers/movies_provider.dart';
-import 'package:movies_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
+import 'package:movies_app/widgets/widgets.dart';
+
+import '../providers/providers.dart';
 import '../search/search_delegate.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -50,12 +51,39 @@ class HomeScreen extends StatelessWidget {
             MovieSlider( 
               movies: moviesProvider.onPopularMovies, 
               title: 'Todas las películas',
-              onNextPage: () => moviesProvider.getOnPopularMovies(), 
-            )
+              onNextPage: () => moviesProvider.getOnPopularMovies(),
+            ),
+            
+            const Divider(),
+
+            // Movies Genre Sliders
+            ...moviesProvider.genreMovies.keys.map((genreId) {
+              return MovieGenreSlider(
+                movies: moviesProvider.genreMovies[genreId]!,
+                title: _getGenreTitle(genreId),
+                onNextPage: () => moviesProvider.getOnGenreMovies(genreId),
+              );
+            }).toList(),
         
           ],
         ),
       )
     );
   } 
+
+  String _getGenreTitle(int genreId) {
+    switch (genreId) {
+      case 16: return 'Animación';
+      case 27: return 'Terror';
+      case 10751: return 'Familiares';
+      case 28: return 'Acción';
+      case 35: return 'Comedia';
+      case 878: return 'Ciencia Ficción';
+      case 10749: return 'Romance';
+      case 53: return 'Suspenso';
+      case 18: return 'Drama';
+      case 99: return 'Documental';
+      default: return 'Género';
+    }
+  }
 }

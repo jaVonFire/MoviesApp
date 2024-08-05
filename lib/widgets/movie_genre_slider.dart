@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'package:movies_app/models/models.dart';
 
-class MovieSlider extends StatefulWidget {
+class MovieGenreSlider extends StatefulWidget {
 
-  final List<Movie> movies;
+  final List<MovieGenre> movies;
   final String? title;
   final Function onNextPage;
 
-  const MovieSlider({super.key, required this.movies, this.title, required this.onNextPage});
+  const MovieGenreSlider({super.key, required this.movies, this.title, required this.onNextPage});
 
   @override
-  State<MovieSlider> createState() => _MovieSliderState();
+  State<MovieGenreSlider> createState() => _MovieGenreSliderState();
 }
 
-class _MovieSliderState extends State<MovieSlider> {
+class _MovieGenreSliderState extends State<MovieGenreSlider> {
   
   final ScrollController scrollController = ScrollController();
 
@@ -43,7 +43,7 @@ class _MovieSliderState extends State<MovieSlider> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 365,
+      height: 380,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: Column(
@@ -67,14 +67,15 @@ class _MovieSliderState extends State<MovieSlider> {
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.movies.length,
                   itemBuilder: 
-                  (context, int index) { 
+                  (context, int index) {  
 
                     final onlyMovie = widget.movies[index]; 
-                    
-                    return _MoviePoster(movie: onlyMovie, title: onlyMovie.title, heroId: '${widget.title}-$index-${widget.movies[index].id}',);
+
+                    return _MoviePoster(movie: onlyMovie, title: onlyMovie.title, heroId: '${widget.title}-$index-${widget.movies[index].id}');
                     
               }),
-            )
+            ),
+            const Divider(),
           ],
         ),
       ),
@@ -84,7 +85,7 @@ class _MovieSliderState extends State<MovieSlider> {
 
 class _MoviePoster extends StatelessWidget {
 
-  final Movie movie;
+  final MovieGenre  movie;
   final String? title;
   final String heroId;
 

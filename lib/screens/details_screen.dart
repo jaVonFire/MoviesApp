@@ -10,22 +10,43 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    
+    if ( arguments is Movie ) {
+      return _MovieDetails( movieM: arguments);
+    } else if ( arguments is MovieGenre ) {
+      return _MovieGenreDetails( movieG: arguments );
+    } else {
+      return Scaffold(
+        body: Container(),
+      );
+    }
 
+  }
+}
+
+class _MovieDetails extends StatelessWidget {
+
+  const _MovieDetails({required this.movieM,});
+
+  final Movie movieM;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [ // Widgets with aditional behavior while scrolling 
-          _CustomAppBar( movie: movie ),
+          _CustomAppBar( movie: movieM ),
           SliverList( // Allow put widgets inside
             delegate: SliverChildListDelegate([ 
-                _PosterAndTitle( movie: movie ), // Normal widget, No-Sliver Widget
-                _Overview( movie: movie ),
+                _PosterAndTitle( movie: movieM ), // Normal widget, No-Sliver Widget
+                _Overview( movie: movieM ),
                 
-                VideoPlayer( movieId: movie.id ),
-
+                VideoPlayer( movieId: movieM.id ),
+    
                 const SizedBox( height: 20 ),
                 
-                CastingCards( movieId: movie.id )
+                CastingCards( movieId: movieM.id )
               ]
             ),
           )
@@ -36,9 +57,42 @@ class DetailsScreen extends StatelessWidget {
   }
 }
 
+class _MovieGenreDetails extends StatelessWidget {
+
+  const _MovieGenreDetails({required this.movieG,});
+
+  final MovieGenre movieG;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [ // Widgets with aditional behavior while scrolling 
+          _CustomAppBar( movie: movieG ),
+          SliverList( // Allow put widgets inside
+            delegate: SliverChildListDelegate([ 
+                _PosterAndTitle( movie: movieG ), // Normal widget, No-Sliver Widget
+                _Overview( movie: movieG ),
+                
+                VideoPlayer( movieId: movieG.id ),
+    
+                const SizedBox( height: 20 ),
+                
+                CastingCards( movieId: movieG.id )
+              ]
+            ),
+          )
+        ],
+      ),
+    
+    );
+  }
+}
+
+
 class _CustomAppBar extends StatelessWidget {
 
-  final Movie movie;
+  final dynamic movie;
 
   const _CustomAppBar({required this.movie});
 
@@ -73,7 +127,7 @@ class _CustomAppBar extends StatelessWidget {
 
 class _PosterAndTitle extends StatelessWidget {
 
-  final Movie movie;
+  final dynamic movie;
 
   const _PosterAndTitle({required this.movie});
 
@@ -126,8 +180,8 @@ class _PosterAndTitle extends StatelessWidget {
 }
 
 class _Overview extends StatelessWidget {
-
-  final Movie movie;
+  
+  final dynamic movie;
 
   const _Overview({required this.movie});
 
