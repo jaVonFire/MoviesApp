@@ -71,6 +71,7 @@ class HomeScreen extends StatelessWidget {
     );
   } 
 
+  // ALL GENRES
   String _getGenreTitle(int genreId) {
     switch (genreId) {
       case 16: return 'Animación';
