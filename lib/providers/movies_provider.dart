@@ -15,6 +15,7 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
   List<Movie> onDisplayMovies = [];
   List<Movie> onPopularMovies = [];
+  Map<int, List<Similar>> onSimilarMovies = {};
   Map<int, List<MovieGenre>> genreMovies = {};
 
   Map<String, dynamic> onKeyVideoMovies = {};
@@ -51,6 +52,7 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
 
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
+    print(url);
     return response.body;
 
   }
@@ -145,6 +147,18 @@ class MoviesProvider extends ChangeNotifier { // ChangeNotifier is a identificat
     });
 
   Future.delayed(const Duration(milliseconds: 301)).then(( _ ) => timer.cancel());
+
+  }
+
+  Future<List<Similar>> getSimilarMovies( int movieId ) async {
+
+    if ( onSimilarMovies.containsKey(movieId) ) return onSimilarMovies[movieId]!;
+
+    final jsonData = await _getJsonData( '3/movie/$movieId/recommendations' );
+    final similarResponse = SimilarResponse.fromJson(json.decode(jsonData));
+
+    onSimilarMovies[movieId] = similarResponse.results;
+    return similarResponse.results;
 
   }
 

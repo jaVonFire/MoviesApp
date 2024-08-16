@@ -1,3 +1,4 @@
+export 'package:movies_app/widgets/similar_movie_cards.dart';
 export 'package:movies_app/widgets/movie_genre_slider.dart';
 export 'package:movies_app/widgets/video_player.dart';
 export 'package:movies_app/widgets/card_swiper.dart';

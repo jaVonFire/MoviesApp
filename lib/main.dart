@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         'home' : ( _ ) => const HomeScreen(),
         'details' : ( _ ) => const DetailsScreen(),
         'settings' : ( _ ) => const SettingsScreen(),
+        'similar' : ( _ ) => const SimilarMoviesScreen(),
       },
       theme: switchProvider.isActive ? AppTheme.darkTheme : AppTheme.lightTheme
     );

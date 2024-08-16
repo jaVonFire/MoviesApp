@@ -41,6 +41,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
         
+            // TODO: Stack para el background
             // Principal Cards
             CardSwiper( movies: moviesProvider.onDisplayMovies ),
 

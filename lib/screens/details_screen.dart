@@ -16,9 +16,11 @@ class DetailsScreen extends StatelessWidget {
       return _MovieDetails( movieM: arguments);
     } else if ( arguments is MovieGenre ) {
       return _MovieGenreDetails( movieG: arguments );
+    } else if ( arguments is Similar ) {
+      return _MovieSimilarDetails( movieS: arguments );
     } else {
-      return Scaffold(
-        body: Container(),
+      return const Scaffold(
+        body: Center(child: Text( 'No Data' )),
       );
     }
 
@@ -46,7 +48,14 @@ class _MovieDetails extends StatelessWidget {
     
                 const SizedBox( height: 20 ),
                 
-                CastingCards( movieId: movieM.id )
+                CastingCards( movieId: movieM.id ),
+
+                TextButton.icon(
+                  onPressed: () => Navigator.pushNamed(context, 'similar', arguments: movieM.id), 
+                  icon: const Icon( Icons.navigate_next ), 
+                  label: const Text("Películas similares...")
+                )
+                
               ]
             ),
           )
@@ -78,7 +87,55 @@ class _MovieGenreDetails extends StatelessWidget {
     
                 const SizedBox( height: 20 ),
                 
-                CastingCards( movieId: movieG.id )
+                CastingCards( movieId: movieG.id ),
+
+                TextButton.icon(
+                  onPressed: () => Navigator.pushNamed(context, 'similar', arguments: movieG.id), 
+                  icon: const Icon( Icons.navigate_next ), 
+                  label: const Text("Películas similares...")
+                )
+
+              ]
+            ),
+          )
+        ],
+      ),
+    
+    );
+  }
+}
+
+class _MovieSimilarDetails extends StatelessWidget {
+
+  final Similar movieS;
+
+  const _MovieSimilarDetails({
+    super.key, required this.movieS,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [ // Widgets with aditional behavior while scrolling 
+          _CustomAppBar( movie: movieS ),
+          SliverList( // Allow put widgets inside
+            delegate: SliverChildListDelegate([ 
+                _PosterAndTitle( movie: movieS ), // Normal widget, No-Sliver Widget
+                _Overview( movie: movieS ),
+
+                VideoPlayer( movieId: movieS.id ),
+
+                const SizedBox( height: 20 ),
+
+                CastingCards( movieId: movieS.id ),
+
+                TextButton.icon(
+                  onPressed: () => Navigator.pushNamed(context, 'similar', arguments: movieS.id), 
+                  icon: const Icon( Icons.navigate_next ), 
+                  label: const Text("Películas similares...")
+                )
+
               ]
             ),
           )
